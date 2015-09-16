@@ -28,7 +28,7 @@ public class Main {
         //3. merge audio files
         //4. Create output file
 
-        Merger merger = new Merger();
+        Merger merger = new Merger(INPUT_FOLDER, OUTPUT_FOLDER);
         FileSystem fileSystem = new FileSystem(INPUT_FOLDER, OUTPUT_FOLDER);
         Time time = new Time(fileSystem, merger);
 

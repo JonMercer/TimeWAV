@@ -56,9 +56,8 @@ public class Time {
             if(weekNum != cal.get(Calendar.WEEK_OF_YEAR)) {
                 yearNum = cal.get(Calendar.YEAR);
                 weekNum = cal.get(Calendar.WEEK_OF_YEAR);
-                ArrayList<File> files = fileSystem.getFilesForWeekNumber(yearNum, weekNum);
-//                merger.merge(files);
-
+                ArrayList<String> nameOfFilesToMerge = fileSystem.getFilesForWeekNumber(yearNum, weekNum);
+                merger.merge(nameOfFilesToMerge);
             }
 
 

@@ -28,9 +28,9 @@ public class FileSystem {
         listOfFiles = folder.listFiles();
     }
 
-    public ArrayList<File> getFilesForWeekNumber(int yearNum, int weekNum) {
+    public ArrayList<String> getFilesForWeekNumber(int yearNum, int weekNum) {
 
-        ArrayList<File> fileToReturn = new ArrayList<File>();
+        ArrayList<String> fineNamesToReturn = new ArrayList<String>();
 
         //TODO: Do I have to sort this first?
         for (File file : listOfFiles) {
@@ -41,7 +41,6 @@ public class FileSystem {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             try {
                 Date date = format.parse(fileDate);
-//                System.out.println("Date is: " + date);
                 cal.setTime(date);
                 int fileYearNum = cal.get(Calendar.YEAR);
                 int fileWeekNum = cal.get(Calendar.WEEK_OF_YEAR);
@@ -49,16 +48,13 @@ public class FileSystem {
 
                 if (yearNum == fileYearNum && weekNum == fileWeekNum) {
                     System.out.println(weekNum);
-                    fileToReturn.add(file);
+                    fineNamesToReturn.add(file.getName());
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
-
-
-
-        return fileToReturn;
+        return fineNamesToReturn;
 
 
 //        return listOfFiles;
