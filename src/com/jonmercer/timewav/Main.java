@@ -7,8 +7,8 @@ import java.util.Date;
 
 public class Main {
 
-    private static String INPUT_FOLDER = "/Users/Odin/Desktop/wav_input";
-    private static String OUTPUT_FOLDER = "/Users/Odin/Desktop/wav_output";
+    private static final String INPUT_FOLDER = "/Users/Odin/Desktop/wav_input";
+    private static final String OUTPUT_FOLDER = "/Users/Odin/Desktop/wav_output";
 //    private final String inputFolder;
 //    private final String outputFolder;
 //    private final String timeType;
@@ -18,7 +18,7 @@ public class Main {
 
 //        inputFolder = args[0];
 //        outputFolder = args[1];
-//        timeType = args[3];
+//        timeType = args[2];
 
 
         //0. parse user input //TODO: done
@@ -30,10 +30,9 @@ public class Main {
 
         Merger merger = new Merger(INPUT_FOLDER, OUTPUT_FOLDER);
         FileSystem fileSystem = new FileSystem(INPUT_FOLDER, OUTPUT_FOLDER);
-        Time time = new Time(fileSystem, merger);
+        new Time(fileSystem, merger);
 
     }
-
 
 
     public static void main(String[] args) {

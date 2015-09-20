@@ -45,7 +45,7 @@ public class Merger {
         } else if (nameOfFilesToMerge.size() > 1) {
             week = week + 1;
             try {
-                AudioInputStream currentWav = null;
+                AudioInputStream currentWav;
                 currentWav = AudioSystem.getAudioInputStream(new File(inputFolder + "/" + nameOfFilesToMerge.get(0)));
 
                 for (int i = 1; i < nameOfFilesToMerge.size(); i++) {
@@ -73,7 +73,7 @@ public class Merger {
     private void writeWav(AudioInputStream wav, int week, int year) {
         try {
             if(week < 10) {
-                //Prepend a 0 infront of the number
+                //Prepend a 0 in front of the number
                 AudioSystem.write(wav,
                         AudioFileFormat.Type.WAVE,
                         new File(outputFolder+"/"+year+"-0"+week+".wav"));

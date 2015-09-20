@@ -30,7 +30,7 @@ public class FileSystem {
 
     public ArrayList<String> getFilesForWeekNumber(int yearNum, int weekNum) {
 
-        ArrayList<String> fineNamesToReturn = new ArrayList<String>();
+        ArrayList<String> fileNamesToReturn = new ArrayList<String>();
 
         //TODO: Do I have to sort this first?
         for (File file : listOfFiles) {
@@ -48,13 +48,13 @@ public class FileSystem {
 
                 if (yearNum == fileYearNum && weekNum == fileWeekNum) {
                     System.out.println(weekNum);
-                    fineNamesToReturn.add(file.getName());
+                    fileNamesToReturn.add(file.getName());
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
-        return fineNamesToReturn;
+        return fileNamesToReturn;
 
 
 //        return listOfFiles;
