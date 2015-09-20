@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Iterates through each week of the year and delegates file merge
@@ -18,7 +19,7 @@ public class Time {
     public Time(FileSystem fileSystem, Merger merger) {
 
         setEndTime();
-        loopThroughTime(fileSystem, merger);
+//        loopThroughTime(fileSystem, merger);
     }
 
 
@@ -70,5 +71,79 @@ public class Time {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
         endTime = dateFormat.format(cal.getTime());
+    }
+
+    public HashMap<Integer, Year> organizeFileNamesByYearAndWeek(String[] fileNames) {
+
+
+        HashMap<Integer, Year> years = new HashMap<Integer, Year>();
+
+        for (String fileName : fileNames) {
+
+            String dateAndTimeString = fileName.substring(0, 16);
+
+            int yearNum = getYear(dateAndTimeString);
+            int weekNum = getWeek(dateAndTimeString);
+
+            //A new year and thus a new week
+            if (years.get(yearNum) == null) {
+
+                Year year = new Year(yearNum);
+                Week week = new Week(weekNum);
+
+                week.addFileName(fileName);
+                year.addWeek(week);
+                years.put(yearNum, year);
+            } else {
+                Year year = years.get(yearNum);
+                HashMap<Integer, Week> weeks = year.getWeeks();
+                Week week = weeks.get(weekNum);
+
+                //A new week
+                if (week == null) {
+
+                    week = new Week(weekNum);
+                    week.addFileName(fileName);
+                    year.addWeek(week);
+
+                } else { //week already created
+                    week.addFileName(fileName);
+                }
+            }
+        }
+
+        return years;
+    }
+
+    private int getYear(String dateAndTimeString) {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd hh_mm");
+
+        try {
+            Date date = dateFormatter.parse(dateAndTimeString);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+
+            return cal.get(Calendar.YEAR);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private int getWeek(String dateAndTimeString) {
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd hh_mm");
+
+        try {
+            Date date = dateFormatter.parse(dateAndTimeString);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+
+            return cal.get(Calendar.WEEK_OF_YEAR);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Jon Mercer on 15-09-12.
@@ -86,6 +87,10 @@ public class Merger {
             System.out.println("Error in writeWav");
             e.printStackTrace();
         }
+    }
+
+    public void merge(HashMap<Integer, Year> organizedDates) {
+
     }
 
 //    private void writeWAV(String s) {

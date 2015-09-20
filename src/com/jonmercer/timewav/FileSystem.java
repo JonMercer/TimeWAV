@@ -59,4 +59,17 @@ public class FileSystem {
 
 //        return listOfFiles;
     }
+
+    public String[] getAllFileNames(String inputFolder) {
+        File folder = new File(inputFolder);
+        File[] listOfFiles = folder.listFiles();
+
+        String[] fileNames = new String[listOfFiles.length];
+
+        for (int i = 0; i < listOfFiles.length; i++) {
+            fileNames[i] = listOfFiles[i].getName();
+        }
+
+        return fileNames;
+    }
 }
