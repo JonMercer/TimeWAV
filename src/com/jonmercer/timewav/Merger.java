@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -91,6 +92,27 @@ public class Merger {
 
     public void merge(HashMap<Integer, Year> organizedDates) {
 
+        //itterate through each year
+        //itterate through each week
+        //call the merge function
+
+
+        Collection<Year> yearValues = organizedDates.values();
+        Object[] years = yearValues.toArray();
+
+        for (int i = 0; i < years.length; i++) {
+            HashMap<Integer, Week> weeksMap = ((Year) years[i]).getWeeks();
+
+            Collection<Week> weekValues = weeksMap.values();
+            Object[] weeks = weekValues.toArray();
+
+            for (int j = 0; j < weeks.length; j++) {
+                ArrayList<String> sortedFileNames = ((Week) weeks[i]).getSortedFileNames();
+                System.out.println("begin merge on: " + sortedFileNames.toString());
+                merge(sortedFileNames);
+            }
+
+        }
     }
 
 //    private void writeWAV(String s) {
