@@ -16,7 +16,6 @@ import java.util.HashMap;
  */
 public class Merger {
 
-
     private String inputFolder;
     private String outputFolder;
 
@@ -29,14 +28,29 @@ public class Merger {
         this.outputFolder = outputFolder;
     }
 
-    public void merge(ArrayList<String> nameOfFilesToMerge) {
 
+    public void mergeAllTheWeeks(HashMap<Integer, Year> organizedDates) {
+
+        Object[] years = organizedDates.values().toArray();
+
+        for (int i = 0; i < years.length; i++) {
+            HashMap<Integer, Week> weeksMap = ((Year) years[i]).getWeeks();
+            Object[] weeks = weeksMap.values().toArray();
+
+            for (int j = 0; j < weeks.length; j++) {
+                ArrayList<String> sortedFileNames = ((Week) weeks[i]).getSortedFileNames();
+                System.out.println("begin merge on: " + sortedFileNames.toString());
+                mergeOneWeek(sortedFileNames);
+            }
+        }
+    }
+
+    public void mergeOneWeek(ArrayList<String> nameOfFilesToMerge) {
 
         if (nameOfFilesToMerge.size() == 1) {
-            week = week + 1;
             try {
                 AudioInputStream onlyWav = AudioSystem.getAudioInputStream(new File(inputFolder + "/" + nameOfFilesToMerge.get(0)));
-                writeWav(onlyWav, week, year);
+                writeWav(onlyWav, nameOfFilesToMerge.get(0));
             } catch (UnsupportedAudioFileException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -60,7 +74,7 @@ public class Merger {
                 }
 
 
-                writeWav(currentWav, week, year);
+                writeWav(currentWav, nameOfFilesToMerge.get(0));
 
 
             } catch (UnsupportedAudioFileException e) {
@@ -72,7 +86,12 @@ public class Merger {
         }
     }
 
-    private void writeWav(AudioInputStream wav, int week, int year) {
+    private void writeWav(AudioInputStream wav, String dateString) {
+        Time time = new Time();
+
+        int week = time.getWeekNum(dateString);
+        int year = time.getYearNum(dateString);
+
         try {
             if(week < 10) {
                 //Prepend a 0 in front of the number
@@ -89,87 +108,6 @@ public class Merger {
             e.printStackTrace();
         }
     }
-
-    public void merge(HashMap<Integer, Year> organizedDates) {
-
-        //itterate through each year
-        //itterate through each week
-        //call the merge function
-
-
-        Collection<Year> yearValues = organizedDates.values();
-        Object[] years = yearValues.toArray();
-
-        for (int i = 0; i < years.length; i++) {
-            HashMap<Integer, Week> weeksMap = ((Year) years[i]).getWeeks();
-
-            Collection<Week> weekValues = weeksMap.values();
-            Object[] weeks = weekValues.toArray();
-
-            for (int j = 0; j < weeks.length; j++) {
-                ArrayList<String> sortedFileNames = ((Week) weeks[i]).getSortedFileNames();
-                System.out.println("begin merge on: " + sortedFileNames.toString());
-                merge(sortedFileNames);
-            }
-
-        }
-    }
-
-//    private void writeWAV(String s) {
-//    }
-//
-//
-//    public void merge(ArrayList<String> fileNames, int foo) {
-//        AudioInputStream currentWav = null;
-//        for (int i = 0; i < fileNames.size(); i++) {
-//            if(i == 0) {
-//                currentWav = AudioSystem.getAudioInputStream(new File(inputFolder + "/" + INTRO));
-//            } else {
-//                currentWav = appendWav(currentWav, file.getName());
-//            }
-//        }
-//
-//        writeWav(currentWav, 9999, 9999);
-//
-//    }
-//
-//    private AudioInputStream appendWav(AudioInputStream currentWav, String appendName) {
-//        try{
-//
-//            AudioInputStream toAppend = AudioSystem.getAudioInputStream(new File(inputFolder+"/"+appendName));
-//            AudioInputStream appendedFiles =
-//                    new AudioInputStream(
-//                            new SequenceInputStream(currentWav, toAppend),
-//                            currentWav.getFormat(),
-//                            currentWav.getFrameLength() + toAppend.getFrameLength());
-//
-//            return appendedFiles;
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        //Note, I'm not catching this null on the return.
-//        return null;
-//    }
-//
-//    private void writeWav(AudioInputStream wav, int week, int year) {
-//        try {
-//            if(week < 10) {
-//                //Prepend a 0 infront of the number
-//                AudioSystem.write(wav,
-//                        AudioFileFormat.Type.WAVE,
-//                        new File(outputFolder+"/"+year+"-0"+week+".wav"));
-//            } else {
-//                AudioSystem.write(wav,
-//                        AudioFileFormat.Type.WAVE,
-//                        new File(outputFolder+"/"+year+"-"+week+".wav"));
-//            }
-//        } catch (Exception e) {
-//            System.out.println("Error in writeWav");
-//            e.printStackTrace();
-//        }
-//    }
-
 
 
 }

@@ -16,7 +16,7 @@ public class Main {
 
         String[] allFileNames = fileSystem.getAllFileNamesFromInputFolder(INPUT_FOLDER);
         HashMap<Integer, Year> organizedDates = time.organizeFileNamesByYearAndWeek(allFileNames);
-        merger.merge(organizedDates);
+        merger.mergeAllTheWeeks(organizedDates);
 
     }
 
