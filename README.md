@@ -16,7 +16,7 @@ I'm currently revising the above project to be more feature-rich. Also, looking 
 - Think of extra features to add
 - Think of creating a simple UI so that my mom can use this.
 - Move merger filesystem commands to fileSystem
-- Find a way to remove duplication of work when mergin files that have already been merged
+- Find a way to remove duplication of work when merging files that have already been merged
 - Replace file strings with URLs
 
 
