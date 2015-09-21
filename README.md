@@ -15,7 +15,11 @@ I'm currently revising the above project to be more feature-rich. Also, looking 
 - Create unit tests
 - Think of extra features to add
 - Think of creating a simple UI so that my mom can use this.
+- Move merger filesystem commands to fileSystem
 
 
 # Features
 - Prevent merging if it already exists. Save processing time
+- Make folder traversal recursive
+- Ony merge ".wav" files instead of all files
+- Make format more flexible. Change substring numbers and format "string"

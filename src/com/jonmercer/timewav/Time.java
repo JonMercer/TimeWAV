@@ -1,78 +1,21 @@
 package com.jonmercer.timewav;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
 /**
- * Iterates through each week of the year and delegates file merge
+ * Organizes the list of file names such that the Merger can consume it.
  */
 public class Time {
 
-    private static final String START_TIME = "1970-01-01";
-    private String endTime;
-
-    public Time(FileSystem fileSystem, Merger merger) {
-
-        setEndTime();
-//        loopThroughTime(fileSystem, merger);
-    }
-
-
-    private void loopThroughTime(FileSystem fileSystem, Merger merger) {
-
-        Date startDate = null;
-        Date endDate = null;
-
-        try {
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-            startDate = dateFormatter.parse(START_TIME);
-            endDate = dateFormatter.parse(endTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Calendar cal = Calendar.getInstance();
-        Calendar start = Calendar.getInstance();
-        Calendar end = Calendar.getInstance();
-        start.setTime(startDate);
-        end.setTime(endDate);
-
-
-        int yearNum = 0;
-        int weekNum = 0;
-
-        //TODO: does it add 1 first or not?
-        //TODO: test if it includes the end
-        //Increment start date by one day until endTime
-        for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
-            cal.setTime(date);
-
-            //Enter once per week
-            if (weekNum != cal.get(Calendar.WEEK_OF_YEAR)) {
-                yearNum = cal.get(Calendar.YEAR);
-                weekNum = cal.get(Calendar.WEEK_OF_YEAR);
-                ArrayList<String> nameOfFilesToMerge = fileSystem.getFilesForWeekNumber(yearNum, weekNum);
-                merger.merge(nameOfFilesToMerge);
-            }
-
-        }
-    }
-
     /**
-     * Sets end time to today plus 1 day
+     * Given a list of file names, organize them into their respective year and week within that year.
+     * @param fileNames list of fileNames in a certain format
+     * @return Map of years.
      */
-    private void setEndTime() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 1);
-        endTime = dateFormat.format(cal.getTime());
-    }
-
     public HashMap<Integer, Year> organizeFileNamesByYearAndWeek(String[] fileNames) {
 
 
@@ -82,8 +25,8 @@ public class Time {
 
             String dateAndTimeString = fileName.substring(0, 16);
 
-            int yearNum = getYear(dateAndTimeString);
-            int weekNum = getWeek(dateAndTimeString);
+            int yearNum = getYearNum(dateAndTimeString);
+            int weekNum = getWeekNum(dateAndTimeString);
 
             //A new year and thus a new week
             if (years.get(yearNum) == null) {
@@ -115,7 +58,12 @@ public class Time {
         return years;
     }
 
-    private int getYear(String dateAndTimeString) {
+    /**
+     * Given a dateString, find the year number
+     * @param dateAndTimeString date string in a certain format
+     * @return the year number
+     */
+    int getYearNum(String dateAndTimeString) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd hh_mm");
 
         try {
@@ -131,7 +79,12 @@ public class Time {
         return 0;
     }
 
-    private int getWeek(String dateAndTimeString) {
+    /**
+     * Given a dateString, find the week number
+     * @param dateAndTimeString date string in a certain format
+     * @return the year number
+     */
+    int getWeekNum(String dateAndTimeString) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd hh_mm");
 
         try {

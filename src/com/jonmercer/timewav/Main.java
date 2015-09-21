@@ -10,16 +10,11 @@ public class Main {
     public Main(String[] args) {
         //TODO: process args
 
+        FileSystem fileSystem = new FileSystem();
+        Time time = new Time();
         Merger merger = new Merger(INPUT_FOLDER, OUTPUT_FOLDER);
-        FileSystem fileSystem = new FileSystem(INPUT_FOLDER, OUTPUT_FOLDER);
-        Time time = new Time(fileSystem, merger);
 
-        //Refactoring:
-        //1. Iterate through files and create a list of years and weeks //TODO: done
-        //2. Iterate through list and merge items
-
-
-        String[] allFileNames = fileSystem.getAllFileNames(INPUT_FOLDER);
+        String[] allFileNames = fileSystem.getAllFileNamesFromInputFolder(INPUT_FOLDER);
         HashMap<Integer, Year> organizedDates = time.organizeFileNamesByYearAndWeek(allFileNames);
         merger.merge(organizedDates);
 
