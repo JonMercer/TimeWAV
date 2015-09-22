@@ -19,6 +19,7 @@ I'm currently revising the above project to be more feature-rich. Also, looking 
 - Find a way to remove duplication of work when merging files that have already been merged
 - Replace file strings with URLs
 - Create better messages when exception caught
+- Modify tests to they're not dependent in my system folder structure
 
 # Features
 - Prevent merging if it already exists. Save processing time
