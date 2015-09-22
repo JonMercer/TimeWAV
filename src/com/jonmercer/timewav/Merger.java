@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -16,20 +15,13 @@ import java.util.HashMap;
  */
 public class Merger {
 
-    private String inputFolder;
-    private String outputFolder;
-
-    private int week = 0;
-    private int year = 999;
-
-    public Merger(String inputFolder, String outputFolder) {
-
-        this.inputFolder = inputFolder;
-        this.outputFolder = outputFolder;
-    }
-
-
-    public void mergeAllTheWeeks(HashMap<Integer, Year> organizedDates) {
+    /**
+     * Iterate through a map of years and the weeks within each year
+     * @param organizedDates ordered data structure of years
+     * @param inputFolderPath the input folder path
+     * @param outputFolderPath the output folder path
+     */
+    public void mergeAllTheWeeks(HashMap<Integer, Year> organizedDates, String inputFolderPath, String outputFolderPath) {
 
         Object[] years = organizedDates.values().toArray();
 
@@ -40,32 +32,37 @@ public class Merger {
             for (int j = 0; j < weeks.length; j++) {
                 ArrayList<String> sortedFileNames = ((Week) weeks[i]).getSortedFileNames();
                 System.out.println("begin merge on: " + sortedFileNames.toString());
-                mergeOneWeek(sortedFileNames);
+                mergeListOfFiles(sortedFileNames, inputFolderPath, outputFolderPath);
             }
         }
     }
 
-    public void mergeOneWeek(ArrayList<String> nameOfFilesToMerge) {
+    /**
+     * Given a list of filenames, merge them.
+     * @param nameOfFilesToMerge list of files to merge
+     * @param inputFolderPath the input folder path
+     * @param outputFolderPath the output folder path
+     */
+    public void mergeListOfFiles(ArrayList<String> nameOfFilesToMerge, String inputFolderPath, String outputFolderPath) {
 
+        //TODO: what if size is 0?
         if (nameOfFilesToMerge.size() == 1) {
             try {
-                AudioInputStream onlyWav = AudioSystem.getAudioInputStream(new File(inputFolder + "/" + nameOfFilesToMerge.get(0)));
-                writeWav(onlyWav, nameOfFilesToMerge.get(0));
+                AudioInputStream onlyWav = AudioSystem.getAudioInputStream(new File(inputFolderPath + "/" + nameOfFilesToMerge.get(0)));
+                writeWav(onlyWav, nameOfFilesToMerge.get(0), outputFolderPath);
             } catch (UnsupportedAudioFileException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            return;
         } else if (nameOfFilesToMerge.size() > 1) {
-            week = week + 1;
             try {
                 AudioInputStream currentWav;
-                currentWav = AudioSystem.getAudioInputStream(new File(inputFolder + "/" + nameOfFilesToMerge.get(0)));
+                currentWav = AudioSystem.getAudioInputStream(new File(inputFolderPath + "/" + nameOfFilesToMerge.get(0)));
 
                 for (int i = 1; i < nameOfFilesToMerge.size(); i++) {
-                    AudioInputStream toAppend = AudioSystem.getAudioInputStream(new File(inputFolder + "/" + nameOfFilesToMerge.get(i)));
+                    AudioInputStream toAppend = AudioSystem.getAudioInputStream(new File(inputFolderPath + "/" + nameOfFilesToMerge.get(i)));
                     currentWav =
                             new AudioInputStream(
                                     new SequenceInputStream(currentWav, toAppend),
@@ -73,20 +70,23 @@ public class Merger {
                                     currentWav.getFrameLength() + toAppend.getFrameLength());
                 }
 
-
-                writeWav(currentWav, nameOfFilesToMerge.get(0));
-
+                writeWav(currentWav, nameOfFilesToMerge.get(0), outputFolderPath);
 
             } catch (UnsupportedAudioFileException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
-    private void writeWav(AudioInputStream wav, String dateString) {
+    /**
+     * Write a WAV from memory to disk. Will rename based on dateString
+     * @param wav the WAV file
+     * @param dateString the date of this file
+     * @param outputFolderPath the output folder path
+     */
+    public void writeWav(AudioInputStream wav, String dateString, String outputFolderPath) {
         Time time = new Time();
 
         int week = time.getWeekNum(dateString);
@@ -97,14 +97,13 @@ public class Merger {
                 //Prepend a 0 in front of the number
                 AudioSystem.write(wav,
                         AudioFileFormat.Type.WAVE,
-                        new File(outputFolder+"/"+year+"-0"+week+".wav"));
+                        new File(outputFolderPath+"/"+year+"-0"+week+".wav"));
             } else {
                 AudioSystem.write(wav,
                         AudioFileFormat.Type.WAVE,
-                        new File(outputFolder+"/"+year+"-"+week+".wav"));
+                        new File(outputFolderPath+"/"+year+"-"+week+".wav"));
             }
         } catch (Exception e) {
-            System.out.println("Error in writeWav");
             e.printStackTrace();
         }
     }

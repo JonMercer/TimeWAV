@@ -18,7 +18,7 @@ I'm currently revising the above project to be more feature-rich. Also, looking 
 - Move merger filesystem commands to fileSystem
 - Find a way to remove duplication of work when merging files that have already been merged
 - Replace file strings with URLs
-
+- Create better messages when exception caught
 
 # Features
 - Prevent merging if it already exists. Save processing time

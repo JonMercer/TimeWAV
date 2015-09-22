@@ -12,11 +12,11 @@ public class Main {
 
         FileSystem fileSystem = new FileSystem();
         Time time = new Time();
-        Merger merger = new Merger(INPUT_FOLDER, OUTPUT_FOLDER);
+        Merger merger = new Merger();
 
         String[] allFileNames = fileSystem.getAllFileNamesFromInputFolder(INPUT_FOLDER);
         HashMap<Integer, Year> organizedDates = time.organizeFileNamesByYearAndWeek(allFileNames);
-        merger.mergeAllTheWeeks(organizedDates);
+        merger.mergeAllTheWeeks(organizedDates, INPUT_FOLDER, OUTPUT_FOLDER);
 
     }
 
