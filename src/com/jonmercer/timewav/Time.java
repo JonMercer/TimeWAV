@@ -63,7 +63,7 @@ public class Time {
      * @param dateAndTimeString date string in a certain format
      * @return the year number
      */
-    int getYearNum(String dateAndTimeString) {
+    public int getYearNum(String dateAndTimeString) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd hh_mm");
 
         try {
@@ -84,7 +84,7 @@ public class Time {
      * @param dateAndTimeString date string in a certain format
      * @return the year number
      */
-    int getWeekNum(String dateAndTimeString) {
+    public int getWeekNum(String dateAndTimeString) {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd hh_mm");
 
         try {

@@ -11,16 +11,6 @@ import static org.junit.Assert.*;
 public class YearTest {
 
     @Test
-    public void testAddWeek() throws Exception {
-
-    }
-
-    @Test
-    public void testGetWeeks() throws Exception {
-
-    }
-
-    @Test
     public void testOneWeek() throws Exception {
 
         Year classToTest = new Year(1);

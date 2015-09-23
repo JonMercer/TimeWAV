@@ -20,6 +20,7 @@ I'm currently revising the above project to be more feature-rich. Also, looking 
 - Replace file strings with URLs
 - Create better messages when exception caught
 - Modify tests to they're not dependent in my system folder structure
+- Find out how to properly test for exceptions
 
 # Features
 - Prevent merging if it already exists. Save processing time
