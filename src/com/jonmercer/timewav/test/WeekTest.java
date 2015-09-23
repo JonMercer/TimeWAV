@@ -35,17 +35,17 @@ public class WeekTest {
 
     @Test
     public void testAddThreeGetThreeSorted() throws Exception {
-        String fileName1 = "B";
-        String fileName2 = "C";
-        String fileName3 = "A";
+        String fileName1 = "2020-02-02 02_02";
+        String fileName2 = "2030-03-03 03_03";
+        String fileName3 = "2010-01-01 01_01";
 
-        Week classTotest = new Week(1);
+        Week classToTest = new Week(1);
 
-        classTotest.addFileName(fileName1);
-        classTotest.addFileName(fileName2);
-        classTotest.addFileName(fileName3);
+        classToTest.addFileName(fileName1);
+        classToTest.addFileName(fileName2);
+        classToTest.addFileName(fileName3);
 
-        ArrayList<String> sortedFileNames = classTotest.getSortedFileNames();
+        ArrayList<String> sortedFileNames = classToTest.getSortedFileNames();
 
         assertEquals("Array is not the right size", 3, sortedFileNames.size());
         assertEquals("File name is not sorted", fileName3, sortedFileNames.get(0));
